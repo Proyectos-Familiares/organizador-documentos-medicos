@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0F6E56">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Mi Salud">
+<title>Mi Carpeta de Salud</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════
+     PANTALLA DE LOGIN
+════════════════════════════════════════════════ -->
+<div id="authScreen">
+  <div class="auth-card">
+    <div class="auth-icon">
+      <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    </div>
+    <h1 class="auth-title">Mi carpeta de salud</h1>
+    <p class="auth-sub">Organiza todos tus documentos médicos en un solo lugar, seguro y accesible desde cualquier dispositivo.</p>
+    <button class="btn-google" id="btnGoogle">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+      Continuar con Google
+    </button>
+    <p class="auth-note">Cada familiar tiene su propio espacio privado</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     APP PRINCIPAL
+════════════════════════════════════════════════ -->
+<div id="appScreen" style="display:none">
+
+  <!-- TOPBAR -->
+  <nav class="topbar">
+    <div class="topbar-brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      </div>
+      <div class="brand-text">
+        <div class="brand-name">Mi carpeta de salud</div>
+        <div class="brand-sub" id="topbarCount">Cargando…</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-primary btn-sm" id="btnOpenUpload">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+        Subir
+      </button>
+      <button class="btn btn-sm btn-icon" id="btnSettings" title="Configuración">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      </button>
+      <div id="userAvatar" class="avatar-placeholder">?</div>
+      <button class="btn btn-icon btn-sm btn-ghost" id="btnSignOut" title="Cerrar sesión">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- ── VISTA LISTA ── -->
+    <div id="listView">
+      <!-- Stats -->
+      <div class="stats-row" id="statsRow"></div>
+
+      <!-- Drive sync banner -->
+      <div class="sync-banner" id="syncBanner" style="display:none">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+        <span id="syncMsg">Sincronizando con Google Drive…</span>
+        <div class="spinner-sm" id="syncSpinner"></div>
+      </div>
+
+      <!-- Upload zone -->
+      <div class="upload-zone" id="dropZone">
+        <div class="upload-zone-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+        </div>
+        <h3>Arrastra fotos y archivos aquí</h3>
+        <p>JPG, PNG, PDF — la IA los clasifica automáticamente</p>
+        <div class="upload-zone-actions">
+          <button class="btn btn-sm" id="btnPickFile">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            Elegir archivo
+          </button>
+          <button class="btn btn-sm" id="btnCamera">
+            <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            Tomar foto
+          </button>
+          <button class="btn btn-sm btn-drive" id="btnSyncDrive">
+            <svg viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg"><path d="M6.6 66.85l3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3L27.5 53H0c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="M43.65 25L29.9 1.2C28.55.4 27 0 25.45 0c-1.55 0-3.1.4-4.5 1.2L3.5 31.5h27.1z" fill="#00ac47"/><path d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75L86.1 57.5c.8-1.4 1.2-2.95 1.2-4.5H60L73.55 76.8z" fill="#ea4335"/><path d="M43.65 25L57.4 1.2C56 .4 54.45 0 52.9 0H34.4c-1.55 0-3.1.4-4.5 1.2z" fill="#00832d"/><path d="M60 53H27.1L13.35 76.8c1.4.8 2.95 1.2 4.5 1.2h52.6c1.55 0 3.1-.4 4.5-1.2z" fill="#2684fc"/><path d="M59.8 32.5L46.05 8.7c-1.35-.8-2.9-1.2-4.45-1.2s-3.1.4-4.5 1.2L23.35 32.5 37.1 56.2h27.1z" fill="#ffba00"/></svg>
+            Sync Drive
+          </button>
+        </div>
+        <input type="file" id="fileInput" accept="image/*,.pdf" style="display:none">
+        <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display:none">
+      </div>
+
+      <!-- Filters -->
+      <div class="filters-row" id="filtersRow"></div>
+
+      <!-- Search + sort -->
+      <div class="controls-row">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input type="text" id="searchInput" placeholder="Buscar por nombre, médico, clínica, fecha…">
+        </div>
+        <select class="sort-select" id="sortSelect">
+          <option value="date-desc">Más recientes</option>
+          <option value="date-asc">Más antiguos</option>
+          <option value="name">Nombre A–Z</option>
+          <option value="cat">Categoría</option>
+        </select>
+      </div>
+
+      <!-- Doc list -->
+      <div id="docList" class="doc-list"></div>
+    </div>
+
+    <!-- ── VISTA DETALLE ── -->
+    <div id="detailView" class="detail-view">
+      <button class="back-btn" id="btnBack">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Volver a mis documentos
+      </button>
+      <div id="detailContent"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     MODAL: SUBIR DOCUMENTO
+════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="uploadModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="uploadModalTitle">Subir documento</div>
+      <button class="close-btn" id="btnCloseUpload">
+        <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <!-- Paso 1: elegir archivo -->
+      <div id="uploadStep1">
+        <div class="drop-area" id="modalDropArea">
+          <div class="upload-zone-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          </div>
+          <p><strong>Arrastra aquí</strong> o usa los botones</p>
+          <div class="modal-file-btns">
+            <button class="btn btn-sm" id="modalBtnFile">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Archivo / Galería
+            </button>
+            <button class="btn btn-sm" id="modalBtnCamera">
+              <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              Tomar foto
+            </button>
+          </div>
+        </div>
+        <div id="previewGrid" class="preview-grid" style="display:none"></div>
+        <div id="processingArea"></div>
+      </div>
+
+      <!-- Paso 2: confirmar metadatos -->
+      <div id="uploadStep2" style="display:none">
+        <div id="aiResultBox" style="display:none"></div>
+        <div class="form-group">
+          <label class="form-label">Nombre del documento *</label>
+          <input type="text" class="form-input" id="fName" placeholder="Ej. Hemograma completo">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Categoría *</label>
+          <select class="form-select" id="fCat">
+            <option value="orden">Orden médica</option>
+            <option value="lab">Laboratorio</option>
+            <option value="formula">Fórmula médica</option>
+            <option value="historia">Historia clínica</option>
+            <option value="examen">Resultado de examen</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Médico / Institución</label>
+          <input type="text" class="form-input" id="fMedico" placeholder="Ej. Dr. Ramírez">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Fecha del documento</label>
+          <input type="date" class="form-input" id="fFecha">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Notas</label>
+          <textarea class="form-textarea" id="fNotas" placeholder="Observaciones o recordatorios…"></textarea>
+        </div>
+        <!-- Barra de progreso de subida -->
+        <div id="uploadProgressWrap" style="display:none">
+          <div class="progress-label" id="progressLabel">Subiendo a Google Drive…</div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-sm" id="btnCancelUpload">Cancelar</button>
+      <button class="btn btn-primary btn-sm" id="btnUploadAction">Continuar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     MODAL: CONFIGURACIÓN (API Key)
+════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Configuración</div>
+      <button class="close-btn" id="btnCloseSettings">
+        <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="settings-section">
+        <div class="settings-icon" style="background:var(--purple-50)">
+          <svg viewBox="0 0 24 24" style="stroke:var(--purple-600)"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div>
+          <div class="settings-label">API Key de Anthropic (IA)</div>
+          <div class="settings-desc">Necesaria para clasificar documentos automáticamente. Se guarda solo en este dispositivo.</div>
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:12px">
+        <div class="api-key-wrap">
+          <input type="password" class="form-input" id="inputApiKey" placeholder="sk-ant-api03-…">
+          <button class="btn btn-icon btn-sm" id="btnToggleKey" title="Mostrar/ocultar">
+            <svg id="eyeIcon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+        <div class="api-key-hint">
+          Obtén tu API key en 
+          <a href="https://console.anthropic.com/keys" target="_blank" rel="noopener">console.anthropic.com/keys</a>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="settings-section">
+        <div class="settings-icon" style="background:#E8F5E9">
+          <svg viewBox="0 0 87.3 78" xmlns="http://www.w3.org/2000/svg" style="width:20px;height:20px"><path d="M6.6 66.85l3.85 6.65c.8 1.4 1.95 2.5 3.3 3.3L27.5 53H0c0 1.55.4 3.1 1.2 4.5z" fill="#0066da"/><path d="M43.65 25L29.9 1.2C28.55.4 27 0 25.45 0c-1.55 0-3.1.4-4.5 1.2L3.5 31.5h27.1z" fill="#00ac47"/><path d="M73.55 76.8c1.35-.8 2.5-1.9 3.3-3.3l1.6-2.75L86.1 57.5c.8-1.4 1.2-2.95 1.2-4.5H60L73.55 76.8z" fill="#ea4335"/><path d="M43.65 25L57.4 1.2C56 .4 54.45 0 52.9 0H34.4c-1.55 0-3.1.4-4.5 1.2z" fill="#00832d"/><path d="M60 53H27.1L13.35 76.8c1.4.8 2.95 1.2 4.5 1.2h52.6c1.55 0 3.1-.4 4.5-1.2z" fill="#2684fc"/><path d="M59.8 32.5L46.05 8.7c-1.35-.8-2.9-1.2-4.45-1.2s-3.1.4-4.5 1.2L23.35 32.5 37.1 56.2h27.1z" fill="#ffba00"/></svg>
+        </div>
+        <div>
+          <div class="settings-label">Google Drive</div>
+          <div class="settings-desc" id="driveStatus">Conectado — los archivos se guardan en tu Drive automáticamente.</div>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="settings-section">
+        <div class="settings-icon" style="background:var(--red-50)">
+          <svg viewBox="0 0 24 24" style="stroke:var(--red-400)"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        </div>
+        <div>
+          <div class="settings-label">Sesión</div>
+          <div class="settings-desc" id="sessionUser">—</div>
+        </div>
+      </div>
+      <button class="btn btn-sm btn-danger" id="btnSignOutSettings" style="margin-top:8px">Cerrar sesión</button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-sm" id="btnCloseSettings2">Cerrar</button>
+      <button class="btn btn-primary btn-sm" id="btnSaveSettings">Guardar API Key</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     MODAL: EDITAR DOCUMENTO
+════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="editModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Editar documento</div>
+      <button class="close-btn" id="btnCloseEdit">
+        <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editDocId">
+      <div class="form-group">
+        <label class="form-label">Nombre *</label>
+        <input type="text" class="form-input" id="eName">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Categoría</label>
+        <select class="form-select" id="eCat">
+          <option value="orden">Orden médica</option>
+          <option value="lab">Laboratorio</option>
+          <option value="formula">Fórmula médica</option>
+          <option value="historia">Historia clínica</option>
+          <option value="examen">Resultado de examen</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Médico / Institución</label>
+        <input type="text" class="form-input" id="eMedico">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Fecha</label>
+        <input type="date" class="form-input" id="eFecha">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Notas</label>
+        <textarea class="form-textarea" id="eNotas"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-sm" id="btnCloseEdit2">Cancelar</button>
+      <button class="btn btn-primary btn-sm" id="btnSaveEdit">Guardar cambios</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     MODAL: SYNC DESDE DRIVE
+════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="syncModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Sincronizar desde Drive</div>
+      <button class="close-btn" id="btnCloseSyncModal">
+        <svg viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div id="syncModalContent">
+        <div class="loading-dots"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-sm" id="btnCloseSyncModal2">Cerrar</button>
+      <button class="btn btn-primary btn-sm" id="btnImportSelected" style="display:none">Importar seleccionados</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ═══════════════════════════════════════════════
+     SCRIPTS
+════════════════════════════════════════════════ -->
+<!-- Google API (Drive) -->
+<script src="https://apis.google.com/js/api.js"></script>
+<!-- Firebase SDK -->
+<script type="module">
+  import { initApp } from './config.js';
+  initApp();
+</script>
+
+</body>
+</html>
